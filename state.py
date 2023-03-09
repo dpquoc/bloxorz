@@ -56,3 +56,7 @@ class State(Map):
                         if not new_state.repeated_state(state_log, new_state):
                             res.append((target + action,new_state))
         return res
+    def is_finished(self):
+        if self.blocks[0] == self.blocks[1] and self.blocks[0] == self.finish :
+            return True
+        return False

@@ -33,6 +33,11 @@ class Map:
             matrix = [f.readline().strip() for _ in range(n)]
             self.matrix = [list(map(int, row.split(" "))) for row in matrix]
             
+            for i in range(matrix):
+                for j in range(matrix[0]):
+                    if matrix[i][j] == 2:
+                        self.finish = (i,j)
+            
             self.buttons = {}
             buttons = [line.strip() for line in f]
             for button in buttons:
