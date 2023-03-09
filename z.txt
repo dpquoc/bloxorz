@@ -19,5 +19,5 @@ StageInfo format :
 0 0 0 0 0 0 0 0 1 1 1 0 0 0
 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-4 1 1 1 2 1 3 1 4       // type of button(4 || 5) , x , y , x1, y1, x2, y2, x3, y3 .... ( target position)
-6 1 1 1 2 3 4 3 4 // type of button (6) , x , y , x1 ,y1 ,x2 ,y2 , targeting position x and y of block
+1 1 1 2 1 3 1 4       //  x , y , x1, y1, x2, y2, x3, y3 .... ( target position) , for X , O type
+1 1 1 2 3 4 3 4 //  x , y , x1 ,y1 ,x2 ,y2 , targeting position x and y of block , for split type
