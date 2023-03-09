@@ -1,0 +1,23 @@
+0 : empty
+1 : normal
+2 : finish
+3 : fragile
+4 : O ( soft button )
+5 : X ( heavy button )
+6 : split button
+
+StageInfo format :
+
+10 3 3                       // lines of matrix in the file,  x , y //(start position)
+0 0 0 0 0 0 0 0 0 0 0 0 0 0  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 1 1 1 0 0 0 0 0 0 0 0 0     // MATRIX with index x,y start from 0,0
+0 0 1 1 1 1 1 1 0 0 0 0 0 0
+0 0 1 1 1 1 1 1 1 1 1 0 0 0
+0 0 0 1 1 1 1 1 1 1 1 1 0 0
+0 0 0 0 0 0 0 1 1 2 1 1 0 0
+0 0 0 0 0 0 0 0 1 1 1 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0
+4 1 1 1 2 1 3 1 4       // type of button(4 || 5) , x , y , x1, y1, x2, y2, x3, y3 .... ( target position)
+6 1 1 1 2 3 4 3 4 // type of button (6) , x , y , x1 ,y1 ,x2 ,y2 , targeting position x and y of block
