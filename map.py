@@ -24,7 +24,7 @@ class Split:
 class Map:
     def __init__(self , stageInfo):
         with open(stageInfo, 'r') as f:
-            first_line = int(f.readline().strip())
+            first_line = f.readline().strip()
             first_line = [int(x) for x in first_line.split(" ")]
             n = first_line[0]
             
@@ -66,6 +66,4 @@ class Map:
                     
                 elif type_button == 6:
                     split_button = Split( (button[0],button[1]), (button[2],button[3]), (button[4],button[5]), (button[6],button[7]))
-                    self.buttons[split_button.pos] = split_button
-            
-            
+                    self.buttons[split_button.pos] = split_button 
