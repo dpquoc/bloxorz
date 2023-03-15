@@ -25,6 +25,7 @@ class Map:
     def __init__(self , stageInfo):
         with open(stageInfo, 'r') as f:
             first_line = f.readline().strip()
+            first_line = f.readline().strip()
             first_line = [int(x) for x in first_line.split(" ")]
             n = first_line[0]
             
@@ -33,8 +34,8 @@ class Map:
             matrix = [f.readline().strip() for _ in range(n)]
             self.matrix = [list(map(int, row.split(" "))) for row in matrix]
             
-            for i in range(matrix):
-                for j in range(matrix[0]):
+            for i in range(n):
+                for j in range(len(matrix[0])):
                     if matrix[i][j] == 2:
                         self.finish = (i,j)
             
@@ -66,7 +67,7 @@ class Map:
                     
                 elif type_button == 6:
                     split_button = Split( (button[0],button[1]), (button[2],button[3]), (button[4],button[5]), (button[6],button[7]))
-                    self.buttons[split_button.pos] = split_button 
-
+                    self.buttons[split_button.pos] = split_button
+            
 x = Map('./map.txt')
-print(x.finish)
+print(x.finish)           
