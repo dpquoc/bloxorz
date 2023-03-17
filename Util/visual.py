@@ -22,16 +22,7 @@ class AutoGUI:
         time.sleep(self.delay)
         return True
     
-    
-    
-    
-def open_game():
-    url = 'https://www.coolmathgames.com/0-bloxorz'
-    if os.name == 'nt': # Windows
-        os.startfile(url)
-    elif os.name == 'posix': # macOS or Linux
-        opener = 'open' if os.uname().sysname == 'Darwin' else 'xdg-open'
-        subprocess.Popen([opener, url])
+
 
 def visual_output(actions, instage=False, passcode=None ): 
     newgame = AutoGUI('./img/newgame.png', 1)
@@ -58,4 +49,4 @@ def visual_output(actions, instage=False, passcode=None ):
             print('Done')
             break
         
-visual_output(["DOWN","RIGHT","RIGHT","RIGHT","RIGHT","RIGHT","RIGHT","DOWN"],"780464")
+# visual_output(["DOWN","RIGHT","RIGHT","RIGHT","RIGHT","RIGHT","RIGHT","DOWN"],"780464")
