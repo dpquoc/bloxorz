@@ -6,11 +6,24 @@ This project uses search algorithms (DFS, BFS, A*, Monte Carlo Tree Search) to t
 
 To get started with this project, you can either run the `run.bat` file or start a terminal and navigate to the project directory.
 
+### Prerequisites
+
+Before running the project, you need to install the following libraries using pip:
+
+- opencv-python
+- pyautogui
+- pydirectinput
+
+You can install them by running the following command in your terminal:
+
+```pip install opencv-python pyautogui pydirectinput```
+
+
 ## Usage
 
 To display usage information for this project, you can run the following command in your terminal:
 
-`python main.py -h`
+```python main.py -h```
 
 This will display information on how to use the `main.py` script and its available options.
 
