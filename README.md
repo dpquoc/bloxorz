@@ -10,7 +10,7 @@ To get started with this project, you can either run the `run.bat` file or start
 
 To display usage information for this project, you can run the following command in your terminal:
 
-python main.py -h
+`python main.py -h`
 
 This will display information on how to use the `main.py` script and its available options.
 
