@@ -55,8 +55,7 @@ def main():
             
     first_level = True
     for i in args.level :
-        print(args.level)
-        actions = get_output( i, args.algorithm, args.realtime )
+        actions = get_output( i, args.search, args.realtime )
         if args.visualization :
             if first_level:
                 print("Initiating visualization. Please ensure that your screen is currently displaying the game's menu.")
@@ -68,9 +67,9 @@ def main():
             
             
         if args.store_output :
-            if not os.path.exists(os.path.join(args.output_folder, args.algorithm)):
-                os.makedirs(os.path.join(args.output_folder, args.algorithm))
-            with open(os.path.join(args.output_folder, args.algorithm, str(i) + '.txt'), 'w') as f:
+            if not os.path.exists(os.path.join(args.output_folder, args.search)):
+                os.makedirs(os.path.join(args.output_folder, args.search))
+            with open(os.path.join(args.output_folder, args.search, str(i) + '.txt'), 'w') as f:
                 f.write('Hello World!')
             print('File write operation successful.')  
     print("Task completed successfully.")
