@@ -12,6 +12,9 @@ def get_output(level, algorithm , realtime = False):
             actions = first_line.split(' ')
         return actions
     
+    State.close_states = []
+    State.open_states = []
+    
     path = f'StageInfo/{level}.txt'
     if algorithm == 'DFS':
         init_node = Node(State(path))
