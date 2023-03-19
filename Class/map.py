@@ -32,20 +32,19 @@ class Map:
             
             matrix = [f.readline().strip() for _ in range(n)]
             self.matrix = [list(map(int, row.split(" "))) for row in matrix]
-
-
+            
             for i in range(n):
-                for j in range(len(self.matrix[0])):
-                    if self.matrix[i][j] == 2:
+                for j in range(len(matrix[0])):
+                    if matrix[i][j] == 2:
                         self.finish = (i,j)
             
             self.buttons = {}
             buttons = [line.strip() for line in f]
             for button in buttons:
+                x_pos = button[1]
+                y_pos = button[2]
                 button = [int(x) for x in button.split(" ")]
-                x_pos = button[0]
-                y_pos = button[1]
-
+                
                 type_button = self.matrix[button[0]][button[1]]
                 if type_button == 4:
                     targets = []
@@ -68,9 +67,3 @@ class Map:
                 elif type_button == 6:
                     split_button = Split( (button[0],button[1]), (button[2],button[3]), (button[4],button[5]), (button[6],button[7]))
                     self.buttons[split_button.pos] = split_button
-
-            print(self.buttons)
-            
-x = Map('./map.txt')
-for btn in x.buttons:
-    print(btn)          

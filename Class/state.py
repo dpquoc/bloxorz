@@ -1,9 +1,9 @@
-from map import Map
+from Class.map import Map
 
 
 class State(Map):
-    def __init__(self):
-        super().__init__()
+    def __init__(self,stageInfo):
+        super().__init__(stageInfo)
         self.target_block = - 1  # -1 : None , 0 : first block , 1 : second block
         # (first block pos , second block pos) : ((1,2),(3,4))
         self.blocks = (self.init_pos, self.init_pos)

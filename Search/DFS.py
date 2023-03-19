@@ -1,4 +1,4 @@
-from ..node import Node
+from ..Class.node import Node
 def DFS(initial_node = Node()):
     
     initial_node.add_childs()

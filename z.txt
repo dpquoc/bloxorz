@@ -23,5 +23,6 @@ StageInfo format :
 1 1 1 2 3 4 3 4 //  x , y , x1 ,y1 ,x2 ,y2 , targeting position x and y of block , for split type
 
 modules:
-pip install selenium
 pip install opencv-python
+pip install pyautogui
+pip install pydirectinput
