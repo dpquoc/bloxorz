@@ -1,6 +1,6 @@
 # AI BLOXORZ
 
-This project uses search algorithms (DFS, BFS, A*, Monte Carlo Tree Search) to train an AI to play the game BLOXORZ.
+This project uses search algorithms (DFS, BFS, A*, Monte Carlo Tree Search) to to solve the game BLOXORZ.
 
 ## Getting Started
 
