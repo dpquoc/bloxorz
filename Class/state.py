@@ -131,6 +131,7 @@ class State(Map):
         if self.target_block == -1:
             for action in ["UP" , "DOWN" , "LEFT" ,"RIGHT"]:
                 new_state = self.next_state(action)
+                print(self.blocks,action,new_state.blocks)
                 if new_state.valid_state():
                     new_state.trigger()
                     if not new_state.repeated_state():
@@ -147,4 +148,3 @@ class State(Map):
                         if not new_state.repeated_state():
                             res.append((target + action,new_state))
         return res
-    
