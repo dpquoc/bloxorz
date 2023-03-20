@@ -1,4 +1,6 @@
 from Class.map import Map
+#from map import Map
+import copy
 
 def compare_matrix(arr1, arr2):
     if len(arr1) != len(arr2):
@@ -7,6 +9,7 @@ def compare_matrix(arr1, arr2):
         if arr1[i] != arr2[i]:
             return False
     return True
+
 
 class State(Map):
     open_states = []
@@ -26,7 +29,7 @@ class State(Map):
 
     # return a next State() , do not update the self , action is "UP" , "DOWN" , "LEFT" , "RIGHT"
     def next_state(self, action):
-        next_state = self
+        next_state = copy.deepcopy(self)
         action_dict = {
             "UP": (-1, 0),
             "DOWN": (1, 0),
@@ -41,27 +44,62 @@ class State(Map):
         if next_state.target_block == -1:
             
             if x0 == x1 and y0 == y1: # standing
-                next_state.blocks[0] = (x0 + dx, y0 + dy)
+                if action == "UP":
+                    next_state.blocks[0] = (x0 - 1, y0)
+                    next_state.blocks[1] = (x1 - 2, y1)
+                elif action == "DOWN":
+                    next_state.blocks[0] = (x0 + 1, y0)
+                    next_state.blocks[1] = (x1 + 2, y1)
+                elif action == "RIGHT":
+                    next_state.blocks[0] = (x0, y0 + 1)
+                    next_state.blocks[1] = (x1, y1 + 2)
+                elif action == "LEFT":
+                    next_state.blocks[0] = (x0, y0 - 1)
+                    next_state.blocks[1] = (x1, y1 - 2)
                 
-            elif x0 == x1: # lying horizontal  : --------
-                if action == "UP" or action == "DOWN":
-                    next_state.blocks[0] = (x0 + dx, y0 + dy)
-                    next_state.blocks[1] = (x1 + dx, y1 + dy)
-                elif action == "LEFT" or action == "RIGHT":
-                    if y0 + dy == y1:
-                        next_state.blocks[0] = (x0 + dx, y0 + dy)
+            elif y0 == y1: # lying vertical  : X-AXIS
+                if action == "UP":
+                    if next_state.blocks[0][0] < next_state.blocks[1][0]:
+                        next_state.blocks[0] = (x0 - 1, y0)
+                        next_state.blocks[1] = (x1 - 2, y1)
                     else:
-                        next_state.blocks[1] = (x1 + dx, y1 + dy)
+                        next_state.blocks[0] = (x0 - 2, y0)
+                        next_state.blocks[1] = (x1 - 1, y1)
+                elif action == "DOWN":
+                    if next_state.blocks[0][0] > next_state.blocks[1][0]:
+                        next_state.blocks[0] = (x0 + 1, y0)
+                        next_state.blocks[1] = (x1 + 2, y1)
+                    else:
+                        next_state.blocks[0] = (x0 + 2, y0)
+                        next_state.blocks[1] = (x1 + 1, y1)
+                elif action == "RIGHT":
+                    next_state.blocks[0] = (x0, y0 + 1)
+                    next_state.blocks[1] = (x1, y1 + 1)
+                elif action == "LEFT":
+                    next_state.blocks[0] = (x0, y0 - 1)
+                    next_state.blocks[1] = (x1, y1 - 1)
                 
-            elif y0 == y1 : # lying vertical   : |
-                if action == "LEFT" or action == "RIGHT":
-                    next_state.blocks[0] = (x0 + dx, y0 + dy)
-                    next_state.blocks[1] = (x1 + dx, y1 + dy)
-                elif action == "UP" or action == "DOWN":
-                    if x0 + dx == x1:
-                        next_state.blocks[0] = (x0 + dx, y0 + dy)
+            elif x0 == x1 : # lying horizontal   : Y-AXIS
+                if action == "RIGHT":
+                    if next_state.blocks[0][1] > next_state.blocks[1][1]:
+                        next_state.blocks[0] = (x0, y0 + 1)
+                        next_state.blocks[1] = (x1, y1 + 2)
                     else:
-                        next_state.blocks[1] = (x1 + dx, y1 + dy)
+                        next_state.blocks[0] = (x0, y0 + 2)
+                        next_state.blocks[1] = (x1, y1 + 1)
+                elif action == "LEFT":
+                    if next_state.blocks[0][1] < next_state.blocks[1][1]:
+                        next_state.blocks[0] = (x0, y0 - 1)
+                        next_state.blocks[1] = (x1, y1 - 2)
+                    else:
+                        next_state.blocks[0] = (x0, y0 - 2)
+                        next_state.blocks[1] = (x1, y1 - 1)
+                elif action == "UP":
+                    next_state.blocks[0] = (x0 - 1, y0)
+                    next_state.blocks[1] = (x1 - 1, y1)
+                elif action == "DOWN":
+                    next_state.blocks[0] = (x0 + 1, y0)
+                    next_state.blocks[1] = (x1 + 1, y1)
             
         else:
             x, y = next_state.blocks[next_state.target_block]
@@ -131,7 +169,6 @@ class State(Map):
         if self.target_block == -1:
             for action in ["UP" , "DOWN" , "LEFT" ,"RIGHT"]:
                 new_state = self.next_state(action)
-                print(self.blocks,action,new_state.blocks)
                 if new_state.valid_state():
                     new_state.trigger()
                     if not new_state.repeated_state():
@@ -148,3 +185,4 @@ class State(Map):
                         if not new_state.repeated_state():
                             res.append((target + action,new_state))
         return res
+
