@@ -57,7 +57,7 @@ def main():
     first_level = True
     for i in args.level :
         actions = get_output( i, args.search, args.realtime )
-        print('----------------------MY CONTENT---------------------')
+        print('------------------------------------MY ACTIONS------------------------------------')
         print(actions)
         if args.visualization :
             if first_level:
