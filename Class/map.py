@@ -65,12 +65,20 @@ class Map:
             self.buttons = {}
             buttons = [line.strip() for line in f]
             for button in buttons:
-                x_pos = button[1]
-                y_pos = button[2]
                 button = [int(x) for x in button.split(" ")]
-                
+                x_pos = button[0]
+                y_pos = button[1]
                 type_button = self.matrix[button[0]][button[1]]
                 if type_button == 4:
+                    targets = []
+                    
+                    for i in range (2, len(button) , 3):
+                        targets.append(((button[i], button[i+1]) , button[i+2]))
+                        
+                    o_button = O((x_pos,y_pos), targets)
+                    self.buttons[o_button.pos] = o_button
+                    
+                elif type_button == 5:
                     targets = []
                     
                     for i in range (2, len(button) , 3):
@@ -79,15 +87,7 @@ class Map:
                     x_button = X((x_pos,y_pos), targets)
                     self.buttons[x_button.pos] = x_button
                     
-                elif type_button == 5:
-                    targets = []
-                    
-                    for i in range (2, len(button) , 2):
-                        targets.append(((button[i], button[i+1]) , button[i+2]))
-                        
-                    o_button = X((x_pos,y_pos), targets)
-                    self.buttons[o_button.pos] = o_button
-                    
                 elif type_button == 6:
                     split_button = Split( (button[0],button[1]), (button[2],button[3]), (button[4],button[5]), (button[6],button[7]))
                     self.buttons[split_button.pos] = split_button
+            print(self.buttons)
