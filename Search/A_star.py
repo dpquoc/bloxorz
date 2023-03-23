@@ -1,4 +1,6 @@
 from Class.node import Node
+from Class.map import Map
+
 from math import sqrt
 
 # Heuristic function = Chebyshev Distance.
@@ -51,5 +53,17 @@ def A_star(initial_node):
                 continue
 
             child.g = current_node.g + 1
+
+            h1 = max(abs(child.state.blocks[0][0] - Map.finish[0]), abs(child.state.blocks[0][1] - Map.finish[1]))
+            h2 = max(abs(child.state.blocks[1][0] - Map.finish[0]), abs(child.state.blocks[1][1] - Map.finish[1]))
+            child.h = max(h1, h2)
+
+            child.f = child.g + child.h
+
+            for open_node in Node.open_list:
+                if child == open_node and child.g > open_node.g:
+                    continue
+
+            Node.open_list.append(child)
 
     return ["ERROR"]
