@@ -56,8 +56,18 @@ def main():
             
     first_level = True
     for i in args.level :
-        actions = get_output( i, args.search, args.realtime )
-        print('------------------------------------MY ACTIONS------------------------------------')
+        
+        start_time = time.time()
+        actions = get_output(i, args.search, args.realtime)
+        end_time = time.time()
+        
+        memory_usage = 0
+        elapsed_time = end_time - start_time
+        print("Calculation done!!!")
+        print(f"Elapsed time: {elapsed_time} seconds")
+        print(f"Memory used: {memory_usage} MB")
+        
+        print('---------------------------------------------------MY ACTIONS---------------------------------------------------\n')
         print(actions)
         if args.visualization :
             if first_level:
