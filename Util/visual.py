@@ -40,32 +40,25 @@ def visual_output(actions, instage=False, passcode=None ):
     loadstage = AutoGUI('./img/loadstage.png', 1)
     enterpasscode = AutoGUI('./img/enterpasscode.png', 1)
 
-    try:
-        while True:
-            if not instage :
-                if passcode==None:
-                    if newgame.find_click():
-                        skip.find_click()
-                else:          
-                    if loadstage.find_click():
-                        if enterpasscode.find_click():
-                            pyautogui.typewrite(passcode)
-                            instage=True
-                            time.sleep(6)
-            else:
-                if pyautogui.locateCenterOnScreen('./img/menu.png' , confidence=0.9) != None :
-                    for action in actions:
-                        pydirectinput.press(action.lower())
-                        time.sleep(0.3)
-                    print('Done')
-                    break
+    while True:
+        if not instage :
+            if passcode==None:
+                if newgame.find_click():
+                    skip.find_click()
+            else:          
+                if loadstage.find_click():
+                    if enterpasscode.find_click():
+                        pyautogui.typewrite(passcode)
+                        instage=True
+                        time.sleep(6)
+        else:
+            if pyautogui.locateCenterOnScreen('./img/menu.png' , confidence=0.9) != None :
+                for action in actions:
+                    pydirectinput.press(action.lower())
+                    time.sleep(0.3)
+                print('Done')
+                break
 
-            # Check if the 'Esc' key is pressed
-            if keyboard.is_pressed('esc'):
-                raise KeyboardInterrupt
-
-    except KeyboardInterrupt:
-        print('Stage visualization terminated by user.')
 
 
 # visual_output(["DOWN","RIGHT","RIGHT","RIGHT","RIGHT","RIGHT","RIGHT","DOWN"], False ,"780464")
