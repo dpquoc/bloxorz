@@ -1,4 +1,4 @@
-from Class.state import State
+from Class.node import Node
 from math import sqrt
 
 # Heuristic function = Manhattan Distance.
@@ -6,10 +6,10 @@ from math import sqrt
 
 def A_star(initial_node):
     # Initialize open states and close states:
-    State.open_states = [initial_node]
-    State.close_states = []
+    Node.open_list = [initial_node]
+    Node.close_list = []
     
-    while len(State.open_states) > 0:  
+    while len(Node.open_list) > 0:  
         current_node = State.open_states[0]
         current_index = 0
         node_status = current_node.get_node_status()
