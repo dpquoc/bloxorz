@@ -1,11 +1,13 @@
 class Node():
     open_list = []
     close_list = []
-    def __init__(self,state, parent=None, from_action=None):
+    def __init__(self,state, parent=None, from_action=None, f = 0, g = 0, h = 0):
         self.state = state
         self.parent = parent
         self.from_action = from_action
-    
+        self.f = f
+        self.g = g
+        self.h = h
     
     def add_childs(self):
         child_states = self.state.next_valid_states()
