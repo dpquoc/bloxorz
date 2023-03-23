@@ -6,6 +6,7 @@ import pydirectinput
 import keyboard
 from PIL import Image
 
+
 class AutoGUI:
     def __init__(self, img_path, delay=1):
         self.img_path = img_path
@@ -19,22 +20,20 @@ class AutoGUI:
     def find_click(self):
         if self.image is not None:
             try:
-                center = pyautogui.locateCenterOnScreen(self.image, confidence=0.9)
+                center = pyautogui.locateCenterOnScreen(
+                    self.image, confidence=0.9)
                 if center is not None:
                     pyautogui.click(center)
                     time.sleep(self.delay)
                     return True
-                
+
             except:
                 pass
 
         return False
 
 
-
-
-
-def visual_output(actions, instage=False, passcode=None ):
+def visual_output(actions, instage=False, passcode=None):
     newgame = AutoGUI('./img/newgame.png', 1)
     skip = AutoGUI('./img/skip.png', 1)
     loadstage = AutoGUI('./img/loadstage.png', 1)
