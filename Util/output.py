@@ -3,6 +3,7 @@ from Class.state import State
 from Class.node import Node
 from Search.DFS import DFS
 from Search.BFS import BFS
+from Search.A_star import A_star
 
 # used for main.py
 def get_output(level, algorithm , realtime = False):
@@ -24,7 +25,8 @@ def get_output(level, algorithm , realtime = False):
         init_node = Node(State(path))
         return BFS(init_node)
     elif algorithm == 'AStar':
-        pass
+        init_node = Node(State(path))
+        return A_star(init_node)
     elif algorithm == 'MCTS':
         pass
 
