@@ -1,7 +1,7 @@
 from Class.node import Node
 from math import sqrt
 
-# Heuristic function = Manhattan Distance.
+# Heuristic function = Chebyshev Distance.
 
 
 def A_star(initial_node):
@@ -51,7 +51,5 @@ def A_star(initial_node):
                 continue
 
             child.g = current_node.g + 1
-
-            # hn1 = abs(child.state.blocks[0] - )
 
     return ["ERROR"]
