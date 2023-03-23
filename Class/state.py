@@ -2,18 +2,9 @@ from Class.map import Map
 #from map import Map
 import copy
 
-def compare_matrix(arr1, arr2):
-    if len(arr1) != len(arr2):
-        return False
-    for i in range(len(arr1)):
-        if arr1[i] != arr2[i]:
-            return False
-    return True
 
 
 class State(Map):
-    open_states = []
-    close_states = []
     def __init__(self,stageInfo):
         super().__init__(stageInfo)
         self.target_block = -1  # -1 : None , 0 : first block , 1 : second block
@@ -144,14 +135,6 @@ class State(Map):
             
                         
 
-    # IMPORTANT!!! : This function use the class attribute ( State.close_states )
-    #                 to check if the self state is in the close list ( the list contains visted states ) 
-    
-    def repeated_state(self):
-        for s in State.close_states:
-            if compare_matrix(self.matrix,s.matrix) and ( self.blocks == s.blocks or  self.blocks[-1::-1] == s.blocks):
-                return True
-        return False
     
     def is_finished(self):
         if self.blocks[0] == self.blocks[1] and self.blocks[0] == self.finish :
@@ -160,19 +143,20 @@ class State(Map):
     
     #return all valid next state as much as possible : 
     # [("UP" , state1) ,("DOWN" , state2), ("SPACE LEFT" , state3) ...]
-    # IMPORTANT!!! This function will ADD self state into the State.close_states , 
-    # So pls make sure you can control the open and close list before using this function or related ones
+    # IMPORTANT!!! This function will NOT ADD change any close_list and open_list, 
+    # So pls make sure you can control the open and close list your own
     def next_valid_states(self):
         res = []
-        State.close_states.append(self)
+        # State.close_list.append(self)
         
         if self.target_block == -1:
             for action in ["UP" , "DOWN" , "LEFT" ,"RIGHT"]:
                 new_state = self.next_state(action)
                 if new_state.valid_state():
                     new_state.trigger()
-                    if not new_state.repeated_state():
-                        res.append((action,new_state))
+                    
+                    # if not new_state.repeated_state():
+                    res.append((action,new_state))
         else:
             for target in ["" , "SPACE "]:
                 for action in ["UP" , "DOWN" , "LEFT" ,"RIGHT"]:
@@ -182,7 +166,7 @@ class State(Map):
                     new_state = new_state.next_state(action)
                     if new_state.valid_state():
                         new_state.trigger()
-                        if not new_state.repeated_state():
-                            res.append((target + action,new_state))
+                        # if not new_state.repeated_state():
+                        res.append((target + action,new_state))
         return res
 

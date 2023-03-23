@@ -90,4 +90,3 @@ class Map:
                 elif type_button == 6:
                     split_button = Split( (button[0],button[1]), (button[2],button[3]), (button[4],button[5]), (button[6],button[7]))
                     self.buttons[split_button.pos] = split_button
-            print(self.buttons)
