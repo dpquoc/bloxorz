@@ -12,12 +12,16 @@ class NodeStar(Node):
         x2,y2 = self.state.blocks[1]
         xg,yg = self.state.finish
         
-        # Chebyshev distance
+        
+        # Simple Chebyshev distance to goal
         h1 = max((x1-xg),(y1-yg))
         h2 = max((x2-xg),(y2-yg))
         self.h = max(h1,h2)
         
         self.f = self.g + self.h
+        
+    def __lt__(self, other):
+        return True
         
     def repeated_node(self):
         for s in NodeStar.close_list:
