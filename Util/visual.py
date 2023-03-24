@@ -54,7 +54,10 @@ def visual_output(actions, instage=False, passcode=None):
             if pyautogui.locateCenterOnScreen('./img/menu.png' , confidence=0.9) != None :
                 for action in actions:
                     pydirectinput.press(action.lower())
-                    time.sleep(0.3)
+                    if action[0] in ['u', 'd', 'l', 'r']:
+                        time.sleep(1)
+                    else:
+                        time.sleep(0.3)
                 print('Done')
                 break
 

@@ -1,9 +1,11 @@
 import os
 from Class.state import State
 from Class.node import Node
+from Class.node_star import NodeStar
 from Search.DFS import DFS
 from Search.BFS import BFS
 from Search.MCTS import MCTS
+from Search.AStar import AStar
 
 # used for main.py
 def get_output(level, algorithm , realtime = False):
@@ -14,8 +16,10 @@ def get_output(level, algorithm , realtime = False):
             actions = first_line.split(' ')
         return actions
     
-    State.close_list = []
-    State.open_list = []
+    print('---------------------------------------------------CALCULATING---------------------------------------------------\n')
+    Node.close_list = []
+    Node.open_list = []
+    NodeStar.close_list = []
     
     path = f'StageInfo/{level}.txt'
     if algorithm == 'DFS':
@@ -25,7 +29,8 @@ def get_output(level, algorithm , realtime = False):
         init_node = Node(State(path))
         return BFS(init_node)
     elif algorithm == 'AStar':
-        pass
+        init_node = NodeStar(State(path))
+        return AStar(init_node)
     elif algorithm == 'MCTS':
         init_state = State(path)
         return MCTS(init_state)

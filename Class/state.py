@@ -124,6 +124,7 @@ class State(Map):
                     self.target_block = 0
                 else:
                     self.target_block = 1
+                return 1 # TRIGGER SPLIT BUTTON
         else:
             if self.matrix[x0][y0] == 4:
                 self.buttons[(x0,y0)].trigger(self.matrix)
@@ -132,7 +133,8 @@ class State(Map):
                 
             if self.target_block != -1 and abs(x0-x1) + abs(y0-y1) == 1:
                 self.target_block = -1
-                               
+        return 2
+            
     
     def is_finished(self):
         if self.blocks[0] == self.blocks[1] and self.blocks[0] == self.finish :
@@ -149,16 +151,18 @@ class State(Map):
         
         if self.target_block == -1:
             for action in ["UP" , "DOWN" , "LEFT" ,"RIGHT"]:
+                tmp = action
                 new_state = self.next_state(action)
                 if new_state.valid_state():
-                    new_state.trigger()
+                    if new_state.trigger() == 1 :
+                        tmp = action[0].lower() + action[1:] 
                     
                     # if not new_state.repeated_state():
-                    res.append((action,new_state))
+                    res.append((tmp,new_state))
         else:
             for target in ["" , "SPACE "]:
                 for action in ["UP" , "DOWN" , "LEFT" ,"RIGHT"]:
-                    new_state = self
+                    new_state = copy.deepcopy(self)
                     if target == "SPACE " : 
                         new_state.switch_target()
                     new_state = new_state.next_state(action)
