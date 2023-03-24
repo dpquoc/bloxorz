@@ -4,6 +4,7 @@ from Class.node import Node
 from Class.node_star import NodeStar
 from Search.DFS import DFS
 from Search.BFS import BFS
+from Search.MCTS import MCTS
 from Search.AStar import AStar
 
 # used for main.py
@@ -31,7 +32,8 @@ def get_output(level, algorithm , realtime = False):
         init_node = NodeStar(State(path))
         return AStar(init_node)
     elif algorithm == 'MCTS':
-        pass
+        init_state = State(path)
+        return MCTS(init_state)
 
 def write_output(level, actions, algorithm, path=None):
     if path is None:

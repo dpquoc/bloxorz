@@ -136,8 +136,6 @@ class State(Map):
                 self.target_block = -1
         return 2
             
-                        
-
     
     def is_finished(self):
         if self.blocks[0] == self.blocks[1] and self.blocks[0] == self.finish :
