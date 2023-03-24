@@ -1,6 +1,7 @@
 import os
 import argparse
 import time
+import psutil
 from Util.output import get_output , write_output
 from Util.visual import visual_output
 
@@ -57,11 +58,12 @@ def main():
     first_level = True
     for i in args.level :
         
+        process = psutil.Process(os.getpid())
         start_time = time.time()
         actions = get_output(i, args.search, args.realtime)
         end_time = time.time()
         
-        memory_usage = 0
+        memory_usage = round(process.memory_info().rss / (1024 * 1024), 2) 
         elapsed_time = end_time - start_time
         print("Calculation done!!!")
         print(f"Elapsed time: {elapsed_time} seconds")
@@ -86,6 +88,10 @@ def main():
                 os.makedirs(os.path.join(args.output_folder, args.search))
             with open(os.path.join(args.output_folder, args.search, str(i) + '.txt'), 'w') as f:
                 f.write(' '.join(actions))
+                f.write('\n\n')
+                f.write(f"Total moves: {len([value for value in actions if value not in ['FINISH', 'SPACE']])}\n")
+                f.write(f"Elapsed time: {elapsed_time} seconds\n")
+                f.write(f"Memory used: {memory_usage} MB\n")
             print('File write operation successful.')  
     print("Task completed successfully.")
     
