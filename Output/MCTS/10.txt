@@ -1,1 +1,5 @@
 OUT OF TIME
+
+Total moves: 1
+Elapsed time: 9.309326410293579 seconds
+Memory used: 42.28 MB

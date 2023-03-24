@@ -3,7 +3,7 @@ import math
 from Class.state import State
 
 # Số lần thực hiện vòng lặp MCTS
-ITERATIONLIMIT = 3000
+ITERATIONLIMIT = 10000
 
 def compare_matrix(arr1, arr2):
     if len(arr1) != len(arr2):
@@ -13,7 +13,7 @@ def compare_matrix(arr1, arr2):
             return False
     return True
 
-class Node:
+class MCTSNode:
     # Visited node là những node đã simulation. Root sẽ được tính là visited mà không cần simulation.
     visited_node = []
     def __init__(self, state: State, parent=None, from_action=None):
@@ -25,6 +25,25 @@ class Node:
         # best child node
         self.reward = 0.0
         self.visits = 0
+        self.countSimulation = 0
+        self.is_closed = False
+
+        if parent == None:
+            self.g = 0
+        else:
+            self.g = self.parent.g + 1
+            
+        x1,y1 = self.state.blocks[0]
+        x2,y2 = self.state.blocks[1]
+        xg,yg = self.state.finish
+        
+        
+        # Simple Chebyshev distance to goal
+        h1 = max((x1-xg),(y1-yg))
+        h2 = max((x2-xg),(y2-yg))
+        self.h = max(h1,h2)
+        
+        self.f = self.g + self.h
 
     # Lấy ra danh sách những node có thể được expand bởi node hiện tại
     # Những node cho phép phải:
@@ -35,26 +54,12 @@ class Node:
         temp = self.state.next_valid_states()
 
         for i in range(len(temp)):
-            node = Node(temp[i][1], self, temp[i][0])
+            node = MCTSNode(temp[i][1], self, temp[i][0])
             if not node.repeated_node():
                 possible_next_node.append(node)
         
         return possible_next_node
-            
 
-    # Tính toán khoảng cách đến đích.
-    def dist_to_finish(self):
-        if self.state.target_block == -1:
-            x = abs(self.state.blocks[0][0] - self.state.finish[0])
-            y = abs(self.state.blocks[0][1] - self.state.finish[1])
-            return x + y
-        else:
-            x1 = abs(self.state.blocks[0][0] - self.state.finish[0])
-            y1 = abs(self.state.blocks[0][1] - self.state.finish[1])
-            x2 = abs(self.state.blocks[1][0] - self.state.finish[0])
-            y2 = abs(self.state.blocks[1][1] - self.state.finish[1])
-            return (x1 + x2 + y1 + y2) / 2.0
-        
 
     # Check có phải leaf node không
     def is_leaf_node(self):
@@ -71,7 +76,7 @@ class Node:
 
 
     def repeated_node(self):
-        for s in Node.visited_node:
+        for s in MCTSNode.visited_node:
             if compare_matrix(self.state.matrix,s.state.matrix) and ( self.state.blocks == s.state.blocks or  self.state.blocks[-1::-1] == s.state.blocks):
                 return True                
         return False
@@ -90,8 +95,8 @@ class Node:
     
 
 # Selection: chọn ra node để thực hiện expand. Chọn node lá để expand
-def selection(node: Node):
-    while not node.is_leaf_node():
+def selection(node: MCTSNode):
+    while not node.is_leaf_node() and not node.is_closed:
         node = get_best_child(node)
     return expand(node)
 
@@ -99,7 +104,7 @@ def selection(node: Node):
 # Expand: Thêm node mới vào cây. Với mỗi action cho ra state hợp lệ
 # sẽ thêm node mới với state đó vào cây.
 # Trả về node con đầu tiên. Nếu không thể expand nữa trả về chính nó.
-def expand(node: Node):
+def expand(node: MCTSNode):
     possible_child_node = node.get_possible_next_node()
     if possible_child_node != []:
         for child_node in possible_child_node:
@@ -111,37 +116,52 @@ def expand(node: Node):
 
 # Dùng công thức UCB để tính giá trị của các node con. Chọn ra node có giá trị cao nhất.
 # Nếu có nhiều hơn 1 bestchild chọn ngẫu nhiên.
-def get_best_child(node: Node):
+def get_best_child(node: MCTSNode):
     scalar = 2
     bestscore = -99999
     bestchildren = []
+    all_score = []
+
+    count_is_closed = 0
     for c in node.childrens:
         if c.visits == 0:
             return c
-        exploit = c.reward / c.visits
+        if c.is_closed:
+            count_is_closed += 1
+            continue
+        exploit = c.reward / c.visits	
         explore = math.sqrt(math.log(node.visits)/float(c.visits))	
         score = exploit + scalar * explore
+        all_score.append(score)
         if score == bestscore:
             bestchildren.append(c)
         if score > bestscore:
             bestchildren = [c]
             bestscore = score
 
+    if count_is_closed == len(node.childrens):
+        node.is_closed = True
+        return node
     return random.choice(bestchildren)
         
 
 # Simulation: thực hiện chọn ngẫu nhiên 1 possible_next_node. Sau đó di chuyển xuống node đã chọn.
 # Thực hiện cho đến khi gặp terminal node. Sau đó tính toán reward rồi trả về reward.
 # Nếu trong khi đang simulation mà gặp finish node trả về finish node luôn.
-def simulation(node: Node, i):
-    Node.visited_node.append(node)
-    depth_of_simulation = 0
-    max_depth = 20
-    min_depth = 5
+def simulation(node: MCTSNode, i):
+    # Trường hợp này xảy ra khi phát hiện một node có tất cả các con đều đã close
+    if node.is_closed:
+        return -100     # Need consider
     
+    MCTSNode.visited_node.append(node)
+    node.countSimulation += 1
+    depth_of_simulation = 0
+    #max_depth = 7
+    max_depth = 4
+
     while depth_of_simulation < max_depth:
         if node.state.is_finished():
-                return node
+            return node
         if not node.is_terminal():
             temp = node.get_possible_next_node()
             node = random.choice(temp)
@@ -152,20 +172,28 @@ def simulation(node: Node, i):
     if node.state.is_finished():
         return node
 
-    score = 50.0
-    if depth_of_simulation < min_depth:
-        score -= 70
-    if depth_of_simulation == max_depth:
-        score -= 20
-    score -= node.dist_to_finish()
+    if depth_of_simulation == 0:
+        node.is_closed = True
+        return -100 # Need consider
 
-    print(depth_of_simulation, i, node.get_action_list())
+    # Tính điểm cho simulation
+    score = 0
+
+    if node.is_terminal() == False:
+        score += 100
+    score -= node.f
+
+    count = 0
+    while (node != None):
+        node = node.parent
+        count += 1
+    print(i, depth_of_simulation, count)
     return score
 
 
 # Backpropagate kết quả thu được từ simulation lên trở lại đến root.
 # Mỗi node trên backpropagation path sẽ được cộng thêm reward và visit cộng 1
-def backpropagate(node: Node, reward):
+def backpropagate(node: MCTSNode, reward):
     while node != None:
         node.reward += reward
         node.visits += 1
@@ -173,12 +201,12 @@ def backpropagate(node: Node, reward):
     
 
 def MCTS(state: State):
-    root = Node(state)
-    Node.visited_node.append(root)
+    root = MCTSNode(state)
+    MCTSNode.visited_node.append(root)
     for i in range(ITERATIONLIMIT):
         node = selection(root)
         reward = simulation(node, i)
-        if type(reward) == float:
+        if type(reward) == float or type(reward) == int:
             backpropagate(node, reward)
         else:
             action_list = reward.get_action_list()
