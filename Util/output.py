@@ -3,6 +3,7 @@ from Class.state import State
 from Class.node import Node
 from Search.DFS import DFS
 from Search.BFS import BFS
+from Search.MCTS import MCTS
 
 # used for main.py
 def get_output(level, algorithm , realtime = False):
@@ -26,7 +27,8 @@ def get_output(level, algorithm , realtime = False):
     elif algorithm == 'AStar':
         pass
     elif algorithm == 'MCTS':
-        pass
+        init_state = State(path)
+        return MCTS(init_state)
 
 def write_output(level, actions, algorithm, path=None):
     if path is None:

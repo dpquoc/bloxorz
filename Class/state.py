@@ -132,9 +132,7 @@ class State(Map):
                 
             if self.target_block != -1 and abs(x0-x1) + abs(y0-y1) == 1:
                 self.target_block = -1
-            
-                        
-
+                               
     
     def is_finished(self):
         if self.blocks[0] == self.blocks[1] and self.blocks[0] == self.finish :
