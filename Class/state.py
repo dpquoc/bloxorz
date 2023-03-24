@@ -124,6 +124,7 @@ class State(Map):
                     self.target_block = 0
                 else:
                     self.target_block = 1
+                self.buttons[(x0,y0)].count += 1 
                 return 1 # TRIGGER SPLIT BUTTON
         else:
             if self.matrix[x0][y0] == 4:

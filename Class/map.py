@@ -4,9 +4,11 @@ class O:
         self.pos = pos
         self.targets = targets
         self.switch = switch
+        self.count = 0
         
     def trigger(self,matrix):
         # CAUTION HERE
+        self.count += 1
         for target in self.targets:
             (x,y) ,s = target
             if s == 0:
@@ -24,7 +26,9 @@ class X:
         self.pos = pos
         self.targets = targets
         self.switch = switch
+        self.count = 0
     def trigger(self,matrix):
+        self.count += 1
         for target in self.targets:
             (x,y) ,s = target
             if s == 0:
@@ -41,6 +45,7 @@ class Split:
         self.block1 = block1
         self.block2 = block2
         self.target = target
+        self.count = 0
     
     
     

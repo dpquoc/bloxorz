@@ -18,6 +18,18 @@ class NodeStar(Node):
         h2 = max((x2-xg),(y2-yg))
         self.h = max(h1,h2)
         
+        # Chebyshev distance to nearest not-yet activated button
+        for pos_button , button in self.state.buttons.items() :
+            if button.count > 0:
+                continue
+            xb , yb = pos_button
+            h1 = max((x1-xb),(y1-yb))
+            h2 = max((x2-xb),(y2-yb))
+            nearest_button = max(h1,h2)
+            self.h = min(self.h,nearest_button)
+            
+            
+        
         self.f = self.g + self.h
         
     def __lt__(self, other):
