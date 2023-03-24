@@ -164,7 +164,7 @@ class State(Map):
         else:
             for target in ["" , "SPACE "]:
                 for action in ["UP" , "DOWN" , "LEFT" ,"RIGHT"]:
-                    new_state = self
+                    new_state = copy.deepcopy(self)
                     if target == "SPACE " : 
                         new_state.switch_target()
                     new_state = new_state.next_state(action)

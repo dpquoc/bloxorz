@@ -11,7 +11,6 @@ def BFS(initial_node):
             continue
         Node.open_list = Node.open_list + Node.open_list[0].add_childs()
         node_status = Node.open_list[0].get_node_status()
-        
         if node_status == 1 :
             action_list = Node.open_list[0].get_action_list()
             # print( "[" + ' '.join(action_list) + " FINISH]" )
