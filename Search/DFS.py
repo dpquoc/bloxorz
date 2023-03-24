@@ -18,6 +18,8 @@ def DFS(initial_node):
     for child in initial_node.child_nodes :
         path = DFS(child)
         if path[-1] == "FINISH":
+            if "SPACE" in child.from_action:
+                return [child.from_action.split(" ")[0] ,child.from_action.split(" ")[1]] + path
             return [child.from_action] + path
         
     return ["ERROR"]
