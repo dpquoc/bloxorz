@@ -1,0 +1,6 @@
+opencv-python
+pyautogui
+pydirectinput
+Pillow
+keyboard
+psutil

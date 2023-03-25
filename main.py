@@ -5,6 +5,8 @@ import psutil
 from Util.output import get_output , write_output
 from Util.visual import visual_output
 
+initial_load = 41.8
+
 passcodes = [
     "780464", "290299", "918660", "520967", "028431", "524383", "189493", "499707",
     "074355", "300590", "291709", "958640", "448106", "210362", "098598", "000241",
@@ -49,28 +51,40 @@ def main():
     
     args = parser.parse_args()
     
-    
+    if len(args.level) > 1:
+        print("Warning: Memory tracking for every seperated stage may not be accurate when running continuously.\n")
+        
     if args.visualization:
         answer = input("Would you like to launch the game? Please enter 'y' for yes or 'n' for no: ")
         if answer.lower() == "y":
             open_game()
             
     first_level = True
+    memory_program = []
     for i in args.level :
-        
+        print(f'\n--------------------------------------------------- STAGE {i} ---------------------------------------------------\n')
         process = psutil.Process(os.getpid())
         start_time = time.time()
         actions = get_output(i, args.search, args.realtime)
         end_time = time.time()
         
-        memory_usage = round(process.memory_info().rss / (1024 * 1024), 2) 
+        memory_program.append(round(process.memory_info().rss / (1024 * 1024), 2)) 
         elapsed_time = end_time - start_time
+        formated_actions = [x.upper() for x in actions if x != 'FINISH']
+        total_moves = len([value for value in formated_actions if value not in ['SPACE']])
+        
+        if len(memory_program) > 1 :
+            memory_usage = memory_program[-1] - memory_program[-2] + initial_load
+        else:
+            memory_usage = memory_program[0]
+            
         print("Calculation done!!!")
+        print(f"Total moves: {total_moves}")
         print(f"Elapsed time: {elapsed_time} seconds")
         print(f"Memory used: {memory_usage} MB")
         
         print('---------------------------------------------------MY ACTIONS---------------------------------------------------\n')
-        print(actions)
+        print(formated_actions)
         if args.visualization :
             if first_level:
                 print("Initiating visualization. Please ensure that your screen is currently displaying the game's menu.")
@@ -87,9 +101,9 @@ def main():
             if not os.path.exists(os.path.join(args.output_folder, args.search)):
                 os.makedirs(os.path.join(args.output_folder, args.search))
             with open(os.path.join(args.output_folder, args.search, str(i) + '.txt'), 'w') as f:
-                f.write(' '.join(actions))
+                f.write(' '.join(formated_actions))
                 f.write('\n\n')
-                f.write(f"Total moves: {len([value for value in actions if value not in ['FINISH', 'SPACE']])}\n")
+                f.write(f"Total moves: {total_moves}\n")
                 f.write(f"Elapsed time: {elapsed_time} seconds\n")
                 f.write(f"Memory used: {memory_usage} MB\n")
             print('File write operation successful.')  
