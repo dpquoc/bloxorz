@@ -1,5 +1,5 @@
-RIGHT RIGHT DOWN RIGHT RIGHT RIGHT DOWN
+RIGHT DOWN RIGHT RIGHT DOWN DOWN RIGHT
 
 Total moves: 7
-Elapsed time: 0.09760832786560059 seconds
-Memory used: 41.07 MB
+Elapsed time: 0.05338311195373535 seconds
+Memory used: 41.19 MB

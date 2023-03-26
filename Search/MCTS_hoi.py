@@ -131,6 +131,7 @@ def expand(node: MCTSNode):
     possible_child_node = node.get_possible_next_node()
     if possible_child_node != []:
         for child_node in possible_child_node:
+            MCTSNode.visited_node.append(child_node)
             node.childrens.append(child_node)
         return node.childrens[0]
     else:
@@ -213,7 +214,6 @@ def simulation(node: MCTSNode, i):
         score += 25
     
 
-    MCTSNode.visited_node.append(node)
     depth_of_simulation = 0
     max_depth = 3
 
