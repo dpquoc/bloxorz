@@ -1,0 +1,5 @@
+UP RIGHT DOWN LEFT UP RIGHT DOWN LEFT UP
+
+Total moves: 9
+Elapsed time: 0.08778500556945801 seconds
+Memory used: 41.2 MB
