@@ -60,7 +60,7 @@ def main():
             open_game()
             
     first_level = True
-    memory_program = []
+    memory_usage = []
     for i in args.level :
         print(f'\n--------------------------------------------------- STAGE {i} ---------------------------------------------------\n')
         process = psutil.Process(os.getpid())
@@ -68,20 +68,16 @@ def main():
         actions = get_output(i, args.search, args.realtime)
         end_time = time.time()
         
-        memory_program.append(round(process.memory_info().rss / (1024 * 1024), 2)) 
+        memory_usage.append(round(process.memory_info().rss / (1024 * 1024), 2)) 
         elapsed_time = end_time - start_time
         formated_actions = [x.upper() for x in actions if x != 'FINISH']
         total_moves = len([value for value in formated_actions if value not in ['SPACE']])
         
-        if len(memory_program) > 1 :
-            memory_usage = memory_program[-1] - memory_program[-2] + initial_load
-        else:
-            memory_usage = memory_program[0]
             
         print("Calculation done!!!")
         print(f"Total moves: {total_moves}")
         print(f"Elapsed time: {elapsed_time} seconds")
-        print(f"Memory used: {memory_usage} MB")
+        print(f"Memory used: {memory_usage[-1]} MB")
         
         print('---------------------------------------------------MY ACTIONS---------------------------------------------------\n')
         print(formated_actions)
@@ -105,7 +101,7 @@ def main():
                 f.write('\n\n')
                 f.write(f"Total moves: {total_moves}\n")
                 f.write(f"Elapsed time: {elapsed_time} seconds\n")
-                f.write(f"Memory used: {memory_usage} MB\n")
+                f.write(f"Memory used: {memory_usage[-1]} MB\n")
             print('File write operation successful.')  
     print("Task completed successfully.")
     
