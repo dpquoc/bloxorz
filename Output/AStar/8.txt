@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 RIGHT RIGHT SPACE UP UP UP SPACE DOWN SPACE UP DOWN RIGHT RIGHT
 
 Total moves: 10
 Elapsed time: 3.919001579284668 seconds
 Memory used: 47.69 MB
+=======
+RIGHT rIGHT DOWN SPACE UP UP UP UP DOWN RIGHT RIGHT
+
+Total moves: 10
+Elapsed time: 4.052167654037476 seconds
+Memory used: 91.67 MB
+>>>>>>> 92e3ae0f813a3c50771356c6a5bbcb3f8319c4df
