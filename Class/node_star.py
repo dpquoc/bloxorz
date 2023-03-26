@@ -14,19 +14,20 @@ class NodeStar(Node):
         
         
         # Simple Chebyshev distance to goal
-        h1 = max((x1-xg),(y1-yg))
-        h2 = max((x2-xg),(y2-yg))
+        h1 = max(abs(x1-xg),abs(y1-yg))
+        h2 = max(abs(x2-xg),abs(y2-yg))
         self.h = max(h1,h2)
         
-        # Chebyshev distance to nearest not-yet activated button
-        for pos_button , button in self.state.buttons.items() :
-            if button.count > 0:
-                continue
-            xb , yb = pos_button
-            h1 = max((x1-xb),(y1-yb))
-            h2 = max((x2-xb),(y2-yb))
-            nearest_button = max(h1,h2)
-            self.h = min(self.h,nearest_button)
+        # # This is just experiment
+        # # Chebyshev distance to nearest not-yet activated button
+        # for pos_button , button in self.state.buttons.items() :
+        #     if button.count > 0:
+        #         continue
+        #     xb , yb = pos_button
+        #     h1 = max(abs(x1-xb),abs(y1-yb))
+        #     h2 = max(abs(x2-xb),abs(y2-yb))
+        #     nearest_button = max(h1,h2)
+        #     self.h = min(self.h,nearest_button)
             
             
         
