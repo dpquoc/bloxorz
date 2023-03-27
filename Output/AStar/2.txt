@@ -1,3 +1,5 @@
 UP RIGHT DOWN RIGHT RIGHT RIGHT RIGHT UP UP DOWN RIGHT DOWN RIGHT RIGHT UP RIGHT UP
-Elapsed time: 3.5058646202087402 seconds
-Memory used: 50.06 MB
+
+Total moves: 17
+Elapsed time: 0.31893253326416016 seconds
+Memory used: 52.04 MB
