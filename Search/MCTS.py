@@ -132,6 +132,10 @@ def selection(node: MCTSNode):
 # sẽ thêm node mới với state đó vào cây.
 # Trả về node con đầu tiên. Nếu không thể expand nữa trả về chính nó.
 def expand(node: MCTSNode):
+    # Node con chưa được simulation sẽ có visit =0
+    if node.visits == 0:
+        return node
+    
     possible_child_node = node.get_possible_next_node()
     if possible_child_node != []:
         for child_node in possible_child_node:
@@ -269,8 +273,9 @@ def backpropagate(node: MCTSNode, reward):
 
 def MCTS(state: State):
     initial = MCTSNode(state)
+    initial.visits = 1
     MCTSNode.root = initial
-    MCTSNode.init_start_to_finish_dist = initial.h
+    MCTSNode.best_distance = initial.h
     MCTSNode.visited_node.append(initial)
     for i in range(ITERATIONLIMIT):
         node = selection(MCTSNode.root)
