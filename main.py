@@ -2,6 +2,7 @@ import os
 import argparse
 import time
 import psutil
+import copy
 from Util.output import get_output , write_output
 from Util.visual import visual_output
 
@@ -70,9 +71,11 @@ def main():
         
         memory_usage.append(round(process.memory_info().rss / (1024 * 1024), 2)) 
         elapsed_time = end_time - start_time
-        formated_actions = [x.upper() for x in actions if x != 'FINISH']
-        total_moves = len([value for value in formated_actions if value not in ['SPACE']])
         
+        total_moves = len([value for value in actions if value not in ['SPACE' , 'FINISH']])
+        
+        print('-------------------------------------------------------------------------------------------------')
+        print(actions)
             
         print("Calculation done!!!")
         print(f"Total moves: {total_moves}")
@@ -80,7 +83,7 @@ def main():
         print(f"Memory used: {memory_usage[-1]} MB")
         
         print('---------------------------------------------------MY ACTIONS---------------------------------------------------\n')
-        print(formated_actions)
+        print(actions)
         if args.visualization :
             if first_level:
                 print("Initiating visualization. Please ensure that your screen is currently displaying the game's menu.")
@@ -97,7 +100,7 @@ def main():
             if not os.path.exists(os.path.join(args.output_folder, args.search)):
                 os.makedirs(os.path.join(args.output_folder, args.search))
             with open(os.path.join(args.output_folder, args.search, str(i) + '.txt'), 'w') as f:
-                f.write(' '.join(formated_actions))
+                f.write(' '.join(actions))
                 f.write('\n\n')
                 f.write(f"Total moves: {total_moves}\n")
                 f.write(f"Elapsed time: {elapsed_time} seconds\n")
